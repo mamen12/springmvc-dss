@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -38,7 +39,6 @@ public class EmployeeController {
 	
 	@GetMapping("/showNewEmployeeForm")
 	 public String showNewEmployeeForm(Model model) {
-	     // create model attribute to bind form data
 		
 	     EmployeeRequest employee = new EmployeeRequest();
 	     
@@ -57,4 +57,31 @@ public class EmployeeController {
         employeeService.saveEmployee(employee);
         return "redirect:/employee";
     }
+	
+	
+	
+	@GetMapping("/showFormForUpdate/{id}")
+    public String showFormForUpdate(@PathVariable(value = "id") long id, Model model) {
+
+        // ambil employee dari api
+        EmployeeResponse employee = employeeService.getEmployeeById(id);
+
+        model.addAttribute("employee", employee);
+        return "employee/update_employee";
+    }
+	
+	@PostMapping("/updateEmployee")
+    public String updateEmployee(@ModelAttribute("employee") EmployeeRequest employee) throws ParseException {
+        employeeService.updateEmployee(employee);
+        return "redirect:/employee";
+    }
+	
+	@GetMapping("/deleteEmployee/{id}")
+	public String deleteEmployee(@PathVariable (value = "id") long id) {
+	 
+	 //panggil api delete
+	 employeeService.deleteEmployeId(id);
+	 return "redirect:/employee";
+	}
+	
 }

@@ -38,6 +38,17 @@ public class EmployeeService {
 	@Value("${api.url.employee.path.save}")
 	private String pathSaveEmployee;
 	
+	@Value("${api.url.employee.path.detail}")
+	private String pathDetailEmployee;
+
+	
+	@Value("${api.url.employee.path.update}")
+	private String pathUpdateEmployee;
+	
+	@Value("${api.url.employee.path.delete}")
+	private String pathDeleteEmployee;
+	
+	
 	@Autowired
 	private RestTemplate restTemplate;
 	
@@ -60,5 +71,41 @@ public class EmployeeService {
 		String rs = restTemplate.postForObject(url, rq, String.class);
 		return rs;
 	}
+
+
+	public EmployeeResponse getEmployeeById(long id) {
+		Request<EmployeeRequest> rq = new Request<EmployeeRequest>();
+		
+		EmployeeRequest rqEmployee = new EmployeeRequest();
+		rqEmployee.setId(id);
+		rq.setRequestPayload(rqEmployee);
+		
+		String url = UrlFormatter.formatUrl(http, host, port, pathDetailEmployee);
+		EmployeeResponse emplo = restTemplate.postForObject(url, rq, EmployeeResponse.class);
+		return emplo;
+	}
+	
+	public String deleteEmployeId(long id) {
+		Request<EmployeeRequest> rq = new Request<EmployeeRequest>();
+		
+		EmployeeRequest rqEmployee = new EmployeeRequest();
+		rqEmployee.setId(id);
+		rq.setRequestPayload(rqEmployee);
+		
+		String url = UrlFormatter.formatUrl(http, host, port, pathDeleteEmployee);
+		String rs = restTemplate.postForObject(url, rq, String.class);
+		return rs;
+	}
+	
+
+	public String updateEmployee(EmployeeRequest request) throws ParseException {
+		Request<EmployeeRequest> rq = new Request<EmployeeRequest>();
+		rq.setRequestPayload(request);
+		String url = UrlFormatter.formatUrl(http, host, port, pathUpdateEmployee);
+		String rs = restTemplate.postForObject(url, rq, String.class);
+		return rs;
+	}
+	
+	
 	
 }

@@ -9,38 +9,20 @@
 <body>
 
 <div class="container my-2">
- <h1>Employees List</h1> 
- 	<form action="#" th:action="@{/saveEmployee}" th:object="${employee}" method="POST">
+ <h2>Update Employee</h2>
+        <form action="#" th:action="@{/updateEmployee}" th:object="${employee}" method="POST">
+         <input type="hidden" th:field="*{id}" />
  	<div class="form-group">
 	    <label for="name">Nama</label>
 	    <input th:field="*{nama}"   type="text" class="form-control" id="name" placeholder="Enter nama">
 	    <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
 	  </div>
-	  <div class="form-group">
+	 <!-- <div class="form-group">
 	    <label  for="tanggal">Tanggal Lahir</label>
-	    <input th:field="*{tglLahirWeb}" type="date" class="form-control datepicker" id="tanggal" placeholder="Tanggal Lahir">
-	  </div>
-	  <div class="form-group">
-	  	 <label for="status">Status</label>
-		<select th:field="*{status}" id="status" class="form-select" aria-label="Default select example">
-		  <option value="1">Aktif</option>
-		  <option value="0">Tidak Aktif</option>
-		</select>
-	  </div>
+	       <input type="hidden" th:value="${#dates.format(employee.tglLahir, 'dd/MM/yyyy')}" id="tanggalLahir"/>
+	    <input th:field="*{tglLahir}"type="date" class="form-control datepicker" id="tanggal" placeholder="Tanggal Lahir">
+	  </div>-->
 	  
-		<div class="form-group">
-			<label for="nama">Group</label>
-			<select th:field="*{groupId}"class="form-control" id="nama">
-			    <option th:each="option : ${listGroup}" th:value="${option.id}" th:text="${option.nama}"></option>
-			</select>
-		</div>
-		
-		<div class="form-group">
-			<label for="saldo">Saldo</label>
-			<select th:field="*{saldoId}"class="form-control" id="saldo">
-			    <option th:each="option : ${listSaldo}" th:value="${option.idSaldo}" th:text="${option.jenis}"></option>
-			</select>
-		</div>
  		<!--	<label for="name" value="Nama Karyawan" >
             <input id="name" type="text" th:field="*{nama}" placeholder="Nama Karyawan" class="form-control mb-4 col-4">
 
@@ -63,11 +45,6 @@
 <script th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.min.js}"></script>
 
 <script>
-	$(function () {
-	    $("#tanggal").datepicker({
-	        format: 'dd-MM-yyyy'
-	    });
-	});
     $('#exampleModal1').on('show.bs.modal', function () {
         $.get("/modals/modal1", function (data) {
             $('#exampleModal1').find('.modal-body').html(data);
